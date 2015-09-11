@@ -6,5 +6,12 @@
 
 // Used to get the current result.
 - (NSNumber *)currentResult;
+- (void) setOperand2 :(NSNumber *) op2;
+- (void) setOperand1 :(NSNumber *) op1;
+- (void) setOperator :(NSString *) opt;
+- (void) calculateResult;
+- (void) reset;
+
+@property (nonatomic) BOOL isCalculatorCleared;
 
 @end
