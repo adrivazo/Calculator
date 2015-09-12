@@ -11,6 +11,8 @@
 - (void) setOperator :(NSString *) opt;
 - (void) calculateResult;
 - (void) reset;
+- (void) negateResult;
+- (BOOL) isIntegralNumber: (NSNumber *) num;
 
 @property (nonatomic) BOOL isCalculatorCleared;
 

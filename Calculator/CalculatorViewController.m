@@ -28,6 +28,11 @@
 }
 
 - (void) displayResult {
+    NSString *resultString;
+    if([_calculatorModel isIntegralNumber:_calculatorModel.currentResult]){
+     resultString = [[NSNumber numberWithInteger:[ _calculatorModel.currentResult integerValue] ] stringValue];
+    }
+   
     _currentResultLabel.text = _calculatorModel.currentResult.stringValue;
 }
 
@@ -77,55 +82,58 @@
     }
 
     else{//last thing pressed was equals or an operator
-          _currentResultLabel.text = pressed;
+        
+        //update with previous operand before clearing
+        [_calculatorModel setOperand2:[NSNumber numberWithInteger: [_currentResultLabel.text integerValue]]];
+        _currentResultLabel.text = pressed;
         //calculate new result
     }
     
     
+    NSLog(@"%@", pressed);//print pressed to console
     
-    // Print the text on the button to the console
-    NSLog(@"%@", pressed);
-    //TODO:Connect the rest of the number buttons to this method by cntrl+click and drag
-    
-   // _currentResultLabel.text =pressed;
     //If the last button pressed was a number, make sure to concatenate
-    _lastPressedWasNumber = YES;//or could do it by checking if 0?
-
-    
+    _lastPressedWasNumber = YES;
 }
 
 - (IBAction)operatorButtonPressed:(id)sender{
-    //if the last thing pressed was an operator,
+    //if the last element pressed was an operator,
     //then update the operator
     //highlight the new operator pressed and unhighlight the old one
     //otherwise update current result and display current thing//
     
+    UIButton *buttonPressed = (UIButton *)sender;
+    //unselect previous operator
+    [_lastOperatorPressed setSelected:NO];
+    //select new operator
+    [sender setSelected: YES];
+    //update value of last pressed
+    _lastOperatorPressed = sender;
+    //update the model with the value of the number
+    //that was just entered
+    [_calculatorModel setOperand2:[NSNumber numberWithInteger: [_currentResultLabel.text floatValue]]];
+    
+
+    
     if(_lastPressedWasNumber){
         _lastPressedWasNumber = NO;
-        UIButton *buttonPressed = (UIButton *)sender;
-        //unselect previous operator
-        [_lastOperatorPressed setSelected:NO];
-        //select new operator
-        [sender setSelected: YES];
-        //update value of last pressed
-        _lastOperatorPressed = sender;
-        
-        //update the model with the value of the number
-        //that was just entered
-        [_calculatorModel setOperand2:[NSNumber numberWithInteger: [_currentResultLabel.text integerValue]]];
-        
         //if it's the first time after clearing... don't
         //calculate result yet
         if(!_calculatorModel.isCalculatorCleared){
-        [_calculatorModel calculateResult];
-        [self displayResult];//before updating current opearot, display current resule
+            [_calculatorModel calculateResult];
+            [self displayResult];//before updating current opearot, display current resule
         }
-        
+
 
         //update current operator... or do that later?
         NSString *operator = buttonPressed.titleLabel.text;
         NSLog(@"%@", operator);
         [_calculatorModel setOperator:operator];
+        [_calculatorModel setIsCalculatorCleared:NO];
+    }
+    
+    else{
+    
     }
 }
 
@@ -133,9 +141,19 @@
     //calculate result
     //if equals was pressed, calculate result
     [_calculatorModel setOperand2:[NSNumber numberWithInteger: [_currentResultLabel.text integerValue]]];
-    
-    
     [_calculatorModel calculateResult];
     [self displayResult];
 }
+
+- (IBAction)clearButtonPressed: (id)sender{
+    [_calculatorModel reset];
+    [self displayResult];
+}
+
+- (IBAction) plusMinusButtonPressed: (id) sender{
+    [_calculatorModel negateResult];
+}
+
+
+
 @end
