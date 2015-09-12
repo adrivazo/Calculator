@@ -48,7 +48,8 @@
 
 
 //method for calculating the result of the division, multiplication, subtraction and addition opea
-- (void)calculateResult {
+- (int)calculateResult {
+    int success = 1;
     
     if([@"+" isEqualToString: _operator]){
         _operand1 = [NSNumber numberWithFloat:([_operand1 floatValue] + [_operand2 floatValue])];
@@ -63,15 +64,27 @@
     }
     
     if([@"/" isEqualToString: _operator]){
+        if([_operand2 integerValue] == 0){
+            success = -1;
+        }
         _operand1 = [NSNumber numberWithFloat:([_operand1 floatValue] / [_operand2 floatValue])];
     }
-    
+
     NSLog(@"Result is %@", _operand1);
-}
+    return success;
+    }
 
 - (void) setOperand2:(NSNumber *)op2{
     if(!_operand2){_operand1 = op2;}
-    _operand1 = _operand2;// assign the old op1 to op2
+    //else{_operand1 = _operand2;}// assign the old op2 to op1
     _operand2 = op2;
+}
+
+//returns the percentage from operand1 if operand 1 exists
+- (NSNumber *)calculatePercentageOfPrevious: (NSNumber *)ptg{
+    if(_operand2){
+    return [NSNumber numberWithFloat: [_operand1 floatValue]*[ptg floatValue]/100];
+    }
+    return nil;
 }
 @end

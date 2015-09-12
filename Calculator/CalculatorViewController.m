@@ -12,6 +12,7 @@
 @property (weak, nonatomic) UIButton *lastOperatorPressed;
 
 @property BOOL lastPressedWasNumber;
+@property BOOL justCalculatedResult;
 @end
 
 @implementation CalculatorViewController
@@ -22,6 +23,7 @@
   // Initialize the CalculatorModel
   self.calculatorModel = [[CalculatorModel alloc] init];
     _lastPressedWasNumber = NO;
+    _justCalculatedResult = NO;
 }
 
 - (void) displayResult {
@@ -47,63 +49,40 @@
     _currentResultLabel.text = [_currentResultLabel.text stringByAppendingString: toAdd];
 }
 
-/**
-  * Put any actions you want here.
-  * Just control+click and drag from a
-  * UI element to here. You can connect
-  * multiple UI elements to the same action.
-  * For example, you might want all the number
-  * buttons to be connected to the same action.
-  * This is a sample action (not connected to anything)
-  * You can see that the sender argument is actually the
-  * UI element that was pressed. You can use this argument
-  * to retrieve valuable information about the ui element.
-  */
-
 - (IBAction)numberButtonPressed:(id)sender {
-    
     // unhighlight the old operator pressed if needed
     [_lastOperatorPressed setSelected:NO];
-    
-    //if the last thing pressed was a number
-        //append to the current number
-    
-    //if the last thing on the display was 0, overwrite with current number
-    
-    //if the last thing was an operator, start a new number
-    
-    //update current result but don't display
-
-    
     // Explicit cast to a UIButton because we know the sender will always be a UIButton.
     UIButton *buttonPressed = (UIButton *)sender;
-    
     NSString *pressed =buttonPressed.titleLabel.text;
     
+    //if the last thing pressed was a number
+    //append to the current number
+
     if(_lastPressedWasNumber){
         if([self labelIsCurrentlyZero]){
             //completely overwrite label
             _currentResultLabel.text = pressed;
         }
-        else{
-            //append instead
+        
+    //if the last thing on the display was 0, overwrite with current number
+    else{
             [self appendToResultLabel: pressed];
         }
     }
-
-    else{//last thing pressed was equals or an operator
+    
+    //else, if the last thing was an operator, start a new number
+    else{//what if it was equals... think!
         
         //update with previous operand before clearing
-        [_calculatorModel setOperand2:[self readLabel]];
+        if(![_calculatorModel isCalculatorCleared])
+        {[_calculatorModel setOperand2:[self readLabel]];}
         _currentResultLabel.text = pressed;
-        //calculate new result
     }
     
-    
     NSLog(@"%@", pressed);//print pressed to console
-    
-    //If the last button pressed was a number, make sure to concatenate
     _lastPressedWasNumber = YES;
+    _justCalculatedResult=NO;
 }
 
 - (IBAction)operatorButtonPressed:(id)sender{
@@ -123,35 +102,34 @@
     //that was just entered
     
      [_calculatorModel setOperand2:[self readLabel]];
-    
+
+    _justCalculatedResult=NO;
     if(_lastPressedWasNumber){
+        //reset last pressed was number flag as no longer true
         _lastPressedWasNumber = NO;
         //if it's the first time after clearing... don't
-        //calculate result yet
+        //calculate result yet, otherwise update result and label
         if(!_calculatorModel.isCalculatorCleared){
-            [_calculatorModel calculateResult];
-            [self displayResult];//before updating current opearot, display current resule
+            [self calculateAndVerifyResult];
+            [self displayResult];//before updating current operator, display current result
+            _justCalculatedResult=true;
         }
-
-
         //update current operator... or do that later?
         NSString *operator = buttonPressed.titleLabel.text;
         NSLog(@"%@", operator);
         [_calculatorModel setOperator:operator];
         [_calculatorModel setIsCalculatorCleared:NO];
     }
-    
-    else{
-    
-    }
 }
 
 - (IBAction)equalButtonPressed: (id)sender{
     //calculate result
     //if equals was pressed, calculate result
-    [_calculatorModel setOperand2:[self readLabel]];
-    [_calculatorModel calculateResult];
+    if(!_justCalculatedResult){
+        [_calculatorModel setOperand2:[self readLabel]];}
+    [self calculateAndVerifyResult];
     [self displayResult];
+    _justCalculatedResult=YES;
 }
 
 - (IBAction)clearButtonPressed: (id)sender{
@@ -160,8 +138,8 @@
 }
 
 - (IBAction) plusMinusButtonPressed: (id) sender{
-    //TODO fix
-    [_calculatorModel negateResult];
+    _currentResultLabel.text =[[NSNumber numberWithFloat:     [[self readLabel] floatValue] *-1] stringValue];
+
 }
 
 - (IBAction) decimalButtonPressed: (id) sender{
@@ -169,10 +147,56 @@
     if(![_calculatorModel isIntegralNumber:[self readLabel]]){
         //silently ignore
         NSLog(@"Not integral!");
-    
     }
     else{
         [self appendToResultLabel:@"."];
     }
 }
+
+-(IBAction) percentageButtonPressed: (id) sender{
+    // if calculator was just reset,
+    //current text /100
+    //otherwise get percentage of previous result
+    
+    //calculate percentage of current result
+    //do the operation requested
+    //TODO FIX IF PTGOFNUL
+    
+    NSNumber * ptg = [self readLabel];
+    NSNumber * ptgOf;
+    
+    if(_calculatorModel.isCalculatorCleared){
+        ptgOf = [NSNumber numberWithFloat:
+                 [[self readLabel] floatValue] / 100];
+
+        _calculatorModel.isCalculatorCleared = NO;
+        [_calculatorModel setOperand2:ptgOf];
+        
+    }
+    
+    else{
+        ptgOf =  [_calculatorModel calculatePercentageOfPrevious:ptg];
+    [_calculatorModel setOperand2:ptgOf];
+    [self calculateAndVerifyResult];
+    _justCalculatedResult = YES;
+    }
+    
+      [self displayResult];
+    _lastPressedWasNumber=NO;
+}
+
+- (void) calculateAndVerifyResult{
+    int res = [_calculatorModel calculateResult];
+    if(res==-1){
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!"
+                                                            message:@"Can't perform that operation"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Hm, k"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+        [_calculatorModel reset];
+    }
+}
+
 @end

@@ -9,10 +9,11 @@
 - (void) setOperand2 :(NSNumber *) op2;
 - (void) setOperand1 :(NSNumber *) op1;
 - (void) setOperator :(NSString *) opt;
-- (void) calculateResult;
+- (int) calculateResult;
 - (void) reset;
 - (void) negateResult;
 - (BOOL) isIntegralNumber: (NSNumber *) num;
+- (NSNumber *) calculatePercentageOfPrevious: (NSNumber *) ptg;
 
 @property (nonatomic) BOOL isCalculatorCleared;
 

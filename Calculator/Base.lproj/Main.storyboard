@@ -108,6 +108,9 @@
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="0.25"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="plusMinusButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="47r-Ua-W4n"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ACD-6O-2wX">
                                 <rect key="frame" x="160" y="248" width="80" height="80"/>
@@ -303,6 +306,9 @@
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="0.25"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="percentageButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="qJ1-G4-fDu"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QcT-pE-CdF">
                                 <rect key="frame" x="240" y="328" width="80" height="80"/>
