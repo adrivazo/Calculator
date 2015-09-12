@@ -361,6 +361,9 @@
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="0.25"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="decimalButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="sLN-Hr-mE7"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>

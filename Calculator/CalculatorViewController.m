@@ -21,10 +21,7 @@
   
   // Initialize the CalculatorModel
   self.calculatorModel = [[CalculatorModel alloc] init];
-    
     _lastPressedWasNumber = NO;
-  
-  // TODO: Any ViewController setup should go here.
 }
 
 - (void) displayResult {
@@ -32,13 +29,24 @@
     if([_calculatorModel isIntegralNumber:_calculatorModel.currentResult]){
      resultString = [[NSNumber numberWithInteger:[ _calculatorModel.currentResult integerValue] ] stringValue];
     }
-   
-    _currentResultLabel.text = _calculatorModel.currentResult.stringValue;
+    else{
+        resultString = _calculatorModel.currentResult.stringValue;
+    }
+    _currentResultLabel.text= resultString;
 }
 
 - (BOOL) labelIsCurrentlyZero{
     return [_currentResultLabel.text isEqualToString:@"0"];
 }
+
+- (NSNumber *) readLabel{
+    return [NSNumber numberWithFloat: [_currentResultLabel.text floatValue]];
+}
+
+- (void) appendToResultLabel: (NSString *) toAdd{
+    _currentResultLabel.text = [_currentResultLabel.text stringByAppendingString: toAdd];
+}
+
 /**
   * Put any actions you want here.
   * Just control+click and drag from a
@@ -74,17 +82,19 @@
     
     if(_lastPressedWasNumber){
         if([self labelIsCurrentlyZero]){
+            //completely overwrite label
             _currentResultLabel.text = pressed;
         }
         else{
-         _currentResultLabel.text = [_currentResultLabel.text stringByAppendingString: pressed];
+            //append instead
+            [self appendToResultLabel: pressed];
         }
     }
 
     else{//last thing pressed was equals or an operator
         
         //update with previous operand before clearing
-        [_calculatorModel setOperand2:[NSNumber numberWithInteger: [_currentResultLabel.text integerValue]]];
+        [_calculatorModel setOperand2:[self readLabel]];
         _currentResultLabel.text = pressed;
         //calculate new result
     }
@@ -111,9 +121,8 @@
     _lastOperatorPressed = sender;
     //update the model with the value of the number
     //that was just entered
-    [_calculatorModel setOperand2:[NSNumber numberWithInteger: [_currentResultLabel.text floatValue]]];
     
-
+     [_calculatorModel setOperand2:[self readLabel]];
     
     if(_lastPressedWasNumber){
         _lastPressedWasNumber = NO;
@@ -140,7 +149,7 @@
 - (IBAction)equalButtonPressed: (id)sender{
     //calculate result
     //if equals was pressed, calculate result
-    [_calculatorModel setOperand2:[NSNumber numberWithInteger: [_currentResultLabel.text integerValue]]];
+    [_calculatorModel setOperand2:[self readLabel]];
     [_calculatorModel calculateResult];
     [self displayResult];
 }
@@ -151,9 +160,19 @@
 }
 
 - (IBAction) plusMinusButtonPressed: (id) sender{
+    //TODO fix
     [_calculatorModel negateResult];
 }
 
-
-
+- (IBAction) decimalButtonPressed: (id) sender{
+    //check that current label does't contain decimals already
+    if(![_calculatorModel isIntegralNumber:[self readLabel]]){
+        //silently ignore
+        NSLog(@"Not integral!");
+    
+    }
+    else{
+        [self appendToResultLabel:@"."];
+    }
+}
 @end
