@@ -14,6 +14,8 @@
 		03AC31C61B98C80000FC2030 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03AC31C51B98C80000FC2030 /* Images.xcassets */; };
 		03AC31D51B98C80000FC2030 /* CalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AC31D41B98C80000FC2030 /* CalculatorTests.m */; };
 		03AC31E01B98C82200FC2030 /* CalculatorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AC31DF1B98C82200FC2030 /* CalculatorModel.m */; };
+		3D58452C1BB9A4110053E009 /* SecretNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D58452B1BB9A4110053E009 /* SecretNoteController.m */; };
+		3D58452F1BB9A4330053E009 /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D58452E1BB9A4330053E009 /* PasswordViewController.m */; };
 		3DC727EE1BA4C16C009F519A /* README.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3DC727ED1BA4C16C009F519A /* README.rtf */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,10 @@
 		03AC31D41B98C80000FC2030 /* CalculatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalculatorTests.m; sourceTree = "<group>"; };
 		03AC31DE1B98C82200FC2030 /* CalculatorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorModel.h; sourceTree = "<group>"; };
 		03AC31DF1B98C82200FC2030 /* CalculatorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorModel.m; sourceTree = "<group>"; };
+		3D58452A1BB9A4110053E009 /* SecretNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecretNoteController.h; sourceTree = "<group>"; };
+		3D58452B1BB9A4110053E009 /* SecretNoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecretNoteController.m; sourceTree = "<group>"; };
+		3D58452D1BB9A4330053E009 /* PasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordViewController.h; sourceTree = "<group>"; };
+		3D58452E1BB9A4330053E009 /* PasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordViewController.m; sourceTree = "<group>"; };
 		3DC727ED1BA4C16C009F519A /* README.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +94,10 @@
 				03AC31BD1B98C80000FC2030 /* AppDelegate.m */,
 				03AC31BF1B98C80000FC2030 /* CalculatorViewController.h */,
 				03AC31C01B98C80000FC2030 /* CalculatorViewController.m */,
+				3D58452D1BB9A4330053E009 /* PasswordViewController.h */,
+				3D58452E1BB9A4330053E009 /* PasswordViewController.m */,
+				3D58452A1BB9A4110053E009 /* SecretNoteController.h */,
+				3D58452B1BB9A4110053E009 /* SecretNoteController.m */,
 				03AC31DE1B98C82200FC2030 /* CalculatorModel.h */,
 				03AC31DF1B98C82200FC2030 /* CalculatorModel.m */,
 				03AC31C21B98C80000FC2030 /* Main.storyboard */,
@@ -225,9 +235,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				03AC31C11B98C80000FC2030 /* CalculatorViewController.m in Sources */,
+				3D58452C1BB9A4110053E009 /* SecretNoteController.m in Sources */,
 				03AC31BE1B98C80000FC2030 /* AppDelegate.m in Sources */,
 				03AC31BB1B98C80000FC2030 /* main.m in Sources */,
 				03AC31E01B98C82200FC2030 /* CalculatorModel.m in Sources */,
+				3D58452F1BB9A4330053E009 /* PasswordViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
