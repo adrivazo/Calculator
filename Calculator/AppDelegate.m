@@ -1,5 +1,5 @@
 #import "AppDelegate.h"
-
+@import Foundation;
 @interface AppDelegate ()
 
 @end
@@ -9,6 +9,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
+    
+    //check if password exists in NS User defaults - if not create it, and set it to 0000
+    
+    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    if(!password){
+    [[NSUserDefaults standardUserDefaults] setValue:@"1111" forKey:@"password"];
+        
+   [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
   return YES;
 }
 

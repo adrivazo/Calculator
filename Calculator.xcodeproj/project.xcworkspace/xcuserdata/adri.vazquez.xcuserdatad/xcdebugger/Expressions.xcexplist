@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[CalculatorViewController displayResult]:CalculatorViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CalculatorViewController percentageButtonPressed:]:CalculatorViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CalculatorViewController labelIsCurrentlyZero]:CalculatorViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[_currentResultLabel.text isEqualToString:@&quot;0&quot;]||[_currentResultLabel.text isEqualToString:@&quot;0.&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
