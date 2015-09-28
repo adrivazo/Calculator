@@ -34,11 +34,25 @@
     else{
         resultString = _calculatorModel.currentResult.stringValue;
     }
+    
+    if ([resultString length ]>10){
+        _currentResultLabel.font = [_currentResultLabel.font fontWithSize:30];
+        resultString = [[NSString alloc] initWithFormat:@"%e",[resultString doubleValue]];
+    }
+    
+    else if([resultString length]>5){
+         _currentResultLabel.font = [_currentResultLabel.font fontWithSize:30];
+    }
+    else{
+        _currentResultLabel.font = [_currentResultLabel.font fontWithSize:90];
+        }
+
     _currentResultLabel.text= resultString;
+    
 }
 
 - (BOOL) labelIsCurrentlyZero{
-    return [_currentResultLabel.text isEqualToString:@"0"];
+    return [_currentResultLabel.text isEqualToString:@"0"]||[_currentResultLabel.text isEqualToString:@"0."];
 }
 
 - (NSNumber *) readLabel{
@@ -46,6 +60,19 @@
 }
 
 - (void) appendToResultLabel: (NSString *) toAdd{
+    NSString * numberString = [_currentResultLabel.text stringByAppendingString: toAdd];
+    
+     if([numberString length]>10 ){
+        [self displayTooLongMessage];
+    }
+    else if([numberString length]>5 ){
+        _currentResultLabel.font = [_currentResultLabel.font fontWithSize:30];
+    }
+   
+    else{
+         _currentResultLabel.font = [_currentResultLabel.font fontWithSize:90];
+    }
+    
     _currentResultLabel.text = [_currentResultLabel.text stringByAppendingString: toAdd];
 }
 
@@ -62,6 +89,7 @@
     if(_lastPressedWasNumber){
         if([self labelIsCurrentlyZero]){
             //completely overwrite label
+            _currentResultLabel.font = [_currentResultLabel.font fontWithSize:90];
             _currentResultLabel.text = pressed;
         }
         
@@ -144,7 +172,11 @@
 
 - (IBAction) decimalButtonPressed: (id) sender{
     //check that current label does't contain decimals already
-    if(![_calculatorModel isIntegralNumber:[self readLabel]]){
+    if([self labelIsCurrentlyZero]){
+        _lastPressedWasNumber=YES;//a little hacky
+    }
+    
+    else if(![_calculatorModel isIntegralNumber:[self readLabel]]){
         //silently ignore
         NSLog(@"Not integral!");
     }
@@ -197,6 +229,17 @@
         [alertView show];
         [_calculatorModel reset];
     }
+}
+
+- (void) displayTooLongMessage{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!"
+                                                        message:@"No. too long"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Hm, k"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+    [_calculatorModel reset];
+
 }
 
 @end
