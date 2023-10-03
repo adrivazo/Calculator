@@ -15,8 +15,6 @@
                value = "[_currentResultLabel.text isEqualToString:@&quot;0&quot;]||[_currentResultLabel.text isEqualToString:@&quot;0.&quot;]">
             </PersistentString>
          </PersistentStrings>
-   <!-- THIS ONE I DON'T WANT TO MERGE-->
       </ContextState>
    </ContextStates>
-   <!--THIS IS MY TEST MERGE-->
 </VariablesViewState>
